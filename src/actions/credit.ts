@@ -8,12 +8,13 @@ export async function createCredit(formData: any) {
       lastName: formData.last_name,
       email: formData.email,
       phone: formData.phone,
-      identification: formData.identification_number,
+      identification: formData[formData.identification],
       department: formData.department,
       municipio: formData.municipio,
       direction: formData.direction,
       income: formData.income,
       document: formData.document,
+      selfie: formData.selfie,
     };
     const result = await ApiService.post({
       url: "credits",
