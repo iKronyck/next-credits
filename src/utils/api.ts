@@ -15,6 +15,7 @@ interface Response<T> {
 
 export class ApiService {
   private static API_URL = process.env.API_URL ?? "";
+  private static FACE_API_URL = process.env.FACE_URL ?? "";
   private static API_URL_GOB = process.env.API_URL_GOB ?? "";
 
   private static async request<T>(
@@ -57,7 +58,7 @@ export class ApiService {
   }: IRequestOptions): Promise<Response<T>> {
     const options: AxiosRequestConfig = {
       method: "GET",
-      url: `https://api.npoint.io/253f0ee259ef1620a547/departamentos`,
+      url: this.API_URL_GOB,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -80,10 +81,27 @@ export class ApiService {
   }: IRequestOptions): Promise<Response<T>> {
     const options: AxiosRequestConfig = {
       method: "POST",
-      url: `http://localhost:7121/api/v1/${url}`,
+      url: `${this.API_URL}${url}`,
       data: body,
       headers: {
         Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        ...headers,
+      },
+    };
+    return this.request<T>(options);
+  }
+
+  public static async postImages<T>({
+    url,
+    body = {},
+    headers = {},
+  }: IRequestOptions): Promise<Response<T>> {
+    const options: AxiosRequestConfig = {
+      method: "POST",
+      url: this.FACE_API_URL,
+      data: body,
+      headers: {
         "Content-Type": "multipart/form-data",
         ...headers,
       },

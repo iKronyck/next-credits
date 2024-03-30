@@ -1,5 +1,5 @@
 "use client";
-import { Box, Center, SimpleGrid, Button } from "@chakra-ui/react";
+import { Box, Center, SimpleGrid, Button, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import FormikField from "@/components/FormikField";
 import FormikSelect from "@/components/FormikSelect";
@@ -9,10 +9,13 @@ import { useRouter } from "next/navigation";
 import ImageUpload from "@/components/ImageUpload";
 import * as Yup from "yup";
 import useDepartamentoMunicipio from "hooks/useDepartamentoMunicipio";
+import TakePhoto from "@/components/TakePhoto";
+import { compareImages } from "@/actions/faceDetection";
 
 export default function CreateCredit() {
   const { replace } = useRouter();
-  const { departamentos, municipios } = useDepartamentoMunicipio();
+  const toast = useToast();
+  const { departamentos, municipios } = useDepartamentoMunicipio("");
 
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().required("El nombre es requerido"),
@@ -36,16 +39,41 @@ export default function CreateCredit() {
     municipio: Yup.string().required("El municipio es requerido"),
     direction: Yup.string().notRequired(),
     document: Yup.mixed(),
+    selpie: Yup.mixed(),
     income: Yup.number()
       .required("El ingreso es requerido")
       .positive("El ingreso debe ser un número positivo"),
   });
 
   const sendData = async (values: any) => {
-    const { status } = await createCredit(values);
-    if (status === "success") {
-      replace("/");
+    const compare = await compareImages(values.document, values.selfie);
+    if (compare) {
+      const { status } = await createCredit(values);
+      if (status === "success") {
+        return toast({
+          title: "Aviso",
+          description: "Se guardo el credito",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } else if (compare === false) {
+      return toast({
+        title: "Aviso",
+        description: "Al parecer no coincide la persona con el documento",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
     }
+    return toast({
+      title: "Aviso",
+      description: "Occurio un error al guardar los datos",
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -65,6 +93,7 @@ export default function CreateCredit() {
             municipio: "",
             direction: "",
             document: "",
+            selfie: "",
             income: "",
           }}
           validationSchema={validationSchema}
@@ -150,6 +179,7 @@ export default function CreateCredit() {
                   isRequired
                 />
                 <ImageUpload />
+                <TakePhoto />
                 <Button
                   gridColumn="span 2"
                   mt={4}

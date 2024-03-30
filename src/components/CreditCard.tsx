@@ -1,14 +1,7 @@
-import { PhoneIcon, EmailIcon, WarningIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Card, CardHeader, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { TCredit } from "../types";
+import Image from "next/image";
 
 interface CreditProps {
   credit: TCredit;
@@ -16,27 +9,35 @@ interface CreditProps {
 
 export default function CreditCard({ credit }: CreditProps) {
   return (
-    <Link href={`/credit/${credit._id}`}>
-      <Card key={credit._id}>
+    <Link key={credit._id} href={`/credit/${credit._id}`}>
+      <Card maxW="sm">
         <CardHeader>
-          <Heading size="md">{`${credit.firstName} ${credit.lastName}`}</Heading>
+          <HStack>
+            <Box
+              position="relative"
+              h={120}
+              w={120}
+              style={{ borderRadius: 60, overflow: "hidden" }}
+            >
+              <Image
+                src={credit.selfie}
+                alt={`Document of ${credit.firstName}-${credit.lastName}`}
+                layout="fill"
+                objectFit="cover"
+                quality={100}
+              />
+            </Box>
+            <Box px="5" flex={1}>
+              <Text
+                fontSize={20}
+                fontWeight="bold"
+              >{`${credit.firstName} ${credit.lastName}`}</Text>
+              <Text
+                fontSize={15}
+              >{`${credit.direction}, ${credit.municipio}, ${credit.department}`}</Text>
+            </Box>
+          </HStack>
         </CardHeader>
-        <CardBody>
-          <Box display="flex" alignItems="baseline" alignContent="center">
-            <EmailIcon />
-            <Text ml={2}>{credit.email}</Text>
-          </Box>
-          <Box display="flex" alignItems="baseline" alignContent="center">
-            <PhoneIcon />
-            <Text ml={2}>{credit.phone}</Text>
-          </Box>
-          <Box display="flex" alignItems="baseline" alignContent="center">
-            <WarningIcon />
-            <Text
-              ml={2}
-            >{`${credit.direction}, ${credit.municipio}, ${credit.department}`}</Text>
-          </Box>
-        </CardBody>
       </Card>
     </Link>
   );

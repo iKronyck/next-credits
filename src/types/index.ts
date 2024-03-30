@@ -10,4 +10,6 @@ export type TCredit = {
   direction: string;
   income: string;
   createdAt: string;
+  document: string;
+  selfie: string;
 };
