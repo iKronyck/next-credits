@@ -23,10 +23,12 @@ export default function FormikField({
   isRequired = false,
 }: FormikFieldProps) {
   return (
-    <FormControl isRequired={isRequired} isInvalid={error !== ""}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
-      <Field as={Input} id={name} name={name} type={type} variant="filled" />
-      <FormErrorMessage>{error}</FormErrorMessage>
-    </FormControl>
+    <div>
+      <FormControl isRequired={isRequired} isInvalid={error !== ""}>
+        <FormLabel htmlFor={name}>{label}</FormLabel>
+        <Field as={Input} id={name} name={name} type={type} variant="filled" />
+        <FormErrorMessage>{error}</FormErrorMessage>
+      </FormControl>
+    </div>
   );
 }
