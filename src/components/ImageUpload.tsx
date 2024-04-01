@@ -38,48 +38,50 @@ export default function ImageUpload() {
   }, [files]);
 
   return (
-    <FormControl gridColumn="span 2" isRequired>
-      <FormLabel htmlFor="document">Documento</FormLabel>
-      <HStack>
-        <Flex
-          {...getRootProps({ className: "dropzone" })}
-          p={4}
-          borderWidth="1px"
-          borderRadius="md"
-          h={90}
-          width={"100%"}
-        >
-          <Field
-            value={undefined}
-            id={"document"}
-            name={"document"}
-            {...getInputProps()}
-          />
-          <Center h={"100%"} w={"100%"}>
-            <Text>{"Arrastre y suelte una imagen aquí"}</Text>
-          </Center>
-        </Flex>
-        {files.length > 0 ? (
-          <Box
-            maxH={90}
-            h={90}
-            maxW={90}
-            w={90}
-            width={"100%"}
+    <div className="flex flex-1 col-span-1 sm:col-span-2">
+      <FormControl gridColumn="span 2" isRequired>
+        <FormLabel htmlFor="document">Documento</FormLabel>
+        <HStack>
+          <Flex
+            {...getRootProps({ className: "dropzone" })}
+            p={4}
             borderWidth="1px"
             borderRadius="md"
+            h={90}
+            width={"100%"}
           >
-            <img
-              src={files[0].preview}
-              alt={`Preview of ${files[0].name}`}
-              onLoad={() => {
-                URL.revokeObjectURL(files[0].preview);
-              }}
-              style={{ width: "100%", height: "100%" }}
+            <Field
+              value={undefined}
+              id={"document"}
+              name={"document"}
+              {...getInputProps()}
             />
-          </Box>
-        ) : null}
-      </HStack>
-    </FormControl>
+            <Center h={"100%"} w={"100%"}>
+              <Text>{"Arrastre y suelte una imagen aquí"}</Text>
+            </Center>
+          </Flex>
+          {files.length > 0 ? (
+            <Box
+              maxH={90}
+              h={90}
+              maxW={90}
+              w={90}
+              width={"100%"}
+              borderWidth="1px"
+              borderRadius="md"
+            >
+              <img
+                src={files[0].preview}
+                alt={`Preview of ${files[0].name}`}
+                onLoad={() => {
+                  URL.revokeObjectURL(files[0].preview);
+                }}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Box>
+          ) : null}
+        </HStack>
+      </FormControl>
+    </div>
   );
 }

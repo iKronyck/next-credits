@@ -9,10 +9,10 @@ interface CreditListProps {
 
 export default function CreditList({ data }: CreditListProps) {
   return (
-    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={5}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-5">
       {data.map((credit) => (
         <CreditCard key={credit._id} credit={credit} />
       ))}
-    </SimpleGrid>
+    </div>
   );
 }

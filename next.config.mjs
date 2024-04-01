@@ -9,6 +9,12 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    API_URL: process.env.API_URL,
+    FACE_URL: process.env.FACE_URL,
+    FACE_PUBLIC_KEY: process.env.FACE_PUBLIC_KEY,
+    FACE_SECRET_KEY: process.env.FACE_SECRET_KEY,
+  },
 };
 
 export default nextConfig;
