@@ -1,5 +1,4 @@
 "use client";
-import getCreditByID from "@/actions/credit";
 import useCredit from "../../../hooks/useCredit";
 import { useSearchParams } from "next/navigation";
 import { Box, Heading, Text } from "@chakra-ui/react";

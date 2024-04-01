@@ -1,5 +1,5 @@
-import getCreditByID from "@/actions/credit";
-import { usePathname, useSearchParams } from "next/navigation";
+import { getCreditByID } from "@/actions/credit";
+import { usePathname } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { TCredit } from "types";
 
