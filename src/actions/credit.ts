@@ -35,3 +35,10 @@ export async function getCredits() {
   });
   return credits.data?.credits ?? [];
 }
+
+export default async function getCreditByID(id: string) {
+  const credits = await ApiService.get<{ credit: TCredit }>({
+    url: `credits/${id}`,
+  });
+  return credits.data?.credit ?? [];
+}
